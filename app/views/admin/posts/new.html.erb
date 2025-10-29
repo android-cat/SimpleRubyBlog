@@ -2,7 +2,7 @@
 <!-- 管理画面：新規投稿 -->
 
 <div class="row">
-  <div class="col-md-10 offset-md-1">
+  <div class="col-md-12">
     <h1 class="mb-4">新規投稿</h1>
 
     <%= form_with(model: @post, url: admin_posts_path, local: true) do |f| %>
@@ -21,13 +21,13 @@
       <!-- タイトル -->
       <div class="mb-3">
         <%= f.label :title, 'タイトル', class: 'form-label' %>
-        <%= f.text_field :title, class: 'form-control', placeholder: 'ブログのタイトルを入力', autofocus: true %>
+        <%= f.text_field :title, class: 'form-control', placeholder: 'ブログのタイトルを入力', autofocus: true, id: 'post_title' %>
       </div>
 
       <!-- 本文 -->
       <div class="mb-3">
         <%= f.label :content, '本文（Markdown形式）', class: 'form-label' %>
-        <%= f.text_area :content, class: 'form-control', rows: 20, placeholder: 'Markdown形式で本文を入力' %>
+        <%= f.text_area :content, class: 'form-control', rows: 20, placeholder: 'Markdown形式で本文を入力', id: 'post_content' %>
         <div class="form-text">
           Markdown記法が使用できます。
           <a href="https://www.markdownguide.org/basic-syntax/" target="_blank" class="text-decoration-none">
@@ -37,13 +37,155 @@
       </div>
 
       <!-- ボタン -->
-      <div class="d-flex gap-2">
+      <div class="d-flex gap-2 mb-3">
         <%= f.submit '投稿する', class: 'btn btn-primary' %>
         <%= link_to 'キャンセル', admin_posts_path, class: 'btn btn-secondary' %>
+        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#previewModal">
+          プレビュー
+        </button>
       </div>
     <% end %>
   </div>
 </div>
+
+<!-- プレビューモーダル -->
+<div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="previewModalLabel">プレビュー</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="preview-header mb-4 p-3" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border-radius: 8px;">
+          <h2 class="preview-title" id="preview-title">(タイトル未入力)</h2>
+        </div>
+        <div class="preview-content p-4" id="preview-content" style="background: white; border-radius: 8px; min-height: 400px;">
+          (本文未入力)
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">閉じる</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Marked.jsライブラリの読み込み -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<!-- Highlight.jsライブラリの読み込み -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+
+<style>
+  #preview-content h1 {
+    font-size: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #667eea;
+  }
+  #preview-content h2 {
+    font-size: 1.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.8rem;
+    color: #333;
+  }
+  #preview-content h3 {
+    font-size: 1.25rem;
+    margin-top: 1.2rem;
+    margin-bottom: 0.6rem;
+    color: #555;
+  }
+  #preview-content p {
+    margin-bottom: 1rem;
+    line-height: 1.8;
+  }
+  #preview-content pre {
+    background-color: #f6f8fa;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+    padding: 1rem;
+    overflow-x: auto;
+    margin: 1rem 0;
+  }
+  #preview-content code {
+    background-color: #f6f8fa;
+    padding: 0.2rem 0.4rem;
+    border-radius: 3px;
+    font-size: 0.9em;
+  }
+  #preview-content pre code {
+    background-color: transparent;
+    padding: 0;
+  }
+  #preview-content blockquote {
+    border-left: 4px solid #667eea;
+    padding-left: 1rem;
+    margin: 1rem 0;
+    color: #666;
+    font-style: italic;
+  }
+  #preview-content table {
+    width: 100%;
+    margin: 1rem 0;
+    border-collapse: collapse;
+  }
+  #preview-content table th,
+  #preview-content table td {
+    border: 1px solid #ddd;
+    padding: 0.5rem;
+  }
+  #preview-content table th {
+    background-color: #f6f8fa;
+    font-weight: 600;
+  }
+  #preview-content ul, #preview-content ol {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+  }
+  #preview-content li {
+    margin-bottom: 0.3rem;
+  }
+  #preview-content img {
+    max-width: 100%;
+    height: auto;
+    margin: 1rem 0;
+  }
+</style>
+
+<script>
+  // Marked.jsの設定
+  marked.setOptions({
+    breaks: true,
+    gfm: true,
+    headerIds: false,
+    mangle: false
+  });
+
+  // プレビューモーダルが表示される際にMarkdownをレンダリング
+  document.getElementById('previewModal').addEventListener('show.bs.modal', function () {
+    // タイトルを取得
+    const title = document.getElementById('post_title').value;
+    
+    // 本文を取得
+    const content = document.getElementById('post_content').value;
+    
+    // タイトルをプレビューに設定
+    document.getElementById('preview-title').textContent = title || '(タイトル未入力)';
+    
+    // MarkdownをHTMLに変換
+    const htmlContent = marked.parse(content || '(本文未入力)');
+    
+    // プレビューエリアに表示
+    document.getElementById('preview-content').innerHTML = htmlContent;
+    
+    // コードブロックにシンタックスハイライトを適用
+    document.querySelectorAll('#preview-content pre code').forEach((block) => {
+      hljs.highlightElement(block);
+    });
+  });
+</script>
 
 <!-- Markdown参考情報 -->
 <div class="row mt-5">
