@@ -42,6 +42,17 @@
       color: #6c757d;
       font-size: 0.9rem;
     }
+    /* ヘッダーのボタンホバー効果 */
+    .header .btn-light:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: all 0.2s;
+    }
+    .header .btn-outline-light:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      transition: all 0.2s;
+    }
   </style>
 </head>
 
@@ -56,8 +67,10 @@
         </div>
         <div class="col-md-4 text-md-end mt-3 mt-md-0">
           <% if user_signed_in? %>
-            <%= link_to '管理画面', admin_posts_path, class: 'btn btn-light me-2' %>
-            <%= link_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'btn btn-outline-light', data: { turbo_method: :delete } %>
+            <div class="d-inline-flex gap-2">
+              <%= link_to '管理画面', admin_posts_path, class: 'btn btn-light' %>
+              <%= button_to 'ログアウト', destroy_user_session_path, method: :delete, class: 'btn btn-outline-light', form: { style: 'display: inline-block;' } %>
+            </div>
           <% else %>
             <%= link_to '管理画面ログイン', new_user_session_path, class: 'btn btn-light' %>
           <% end %>
