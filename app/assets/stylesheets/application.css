@@ -1,0 +1,14 @@
+/* app/assets/stylesheets/application.css
+ * アプリケーション全体のスタイルシート
+ *
+ *= require_self
+ */
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* フラッシュメッセージ */
+.alert {
+  margin-bottom: 1rem;
+}

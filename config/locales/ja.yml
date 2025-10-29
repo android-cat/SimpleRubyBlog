@@ -1,0 +1,86 @@
+#!/usr/bin/env ruby
+# config/locales/ja.yml
+# 日本語ロケールファイル
+
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+      post: 投稿
+    attributes:
+      user:
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード（確認）
+        created_at: 作成日時
+        updated_at: 更新日時
+      post:
+        title: タイトル
+        content: 本文
+        created_at: 投稿日時
+        updated_at: 更新日時
+    errors:
+      messages:
+        blank: を入力してください
+        too_short: は%{count}文字以上で入力してください
+        too_long: は%{count}文字以内で入力してください
+        invalid: が不正です
+        taken: はすでに使用されています
+        confirmation: が一致しません
+  
+  devise:
+    sessions:
+      signed_in: ログインしました
+      signed_out: ログアウトしました
+      already_signed_out: 既にログアウト済みです
+    passwords:
+      send_instructions: パスワードリセット手順を送信しました
+      updated: パスワードを変更しました
+    registrations:
+      signed_up: アカウント登録が完了しました
+      updated: アカウント情報を更新しました
+      destroyed: アカウントを削除しました
+    failure:
+      already_authenticated: 既にログインしています
+      inactive: アカウントが有効化されていません
+      invalid: メールアドレスまたはパスワードが違います
+      locked: アカウントがロックされています
+      last_attempt: あと1回失敗するとアカウントがロックされます
+      not_found_in_database: メールアドレスまたはパスワードが違います
+      timeout: セッションがタイムアウトしました。再度ログインしてください
+      unauthenticated: ログインが必要です
+      unconfirmed: メールアドレスの確認が必要です
+  
+  views:
+    pagination:
+      first: "&laquo; 最初"
+      last: "最後 &raquo;"
+      previous: "&lsaquo; 前"
+      next: "次 &rsaquo;"
+      truncate: "..."
+  
+  helpers:
+    submit:
+      create: 登録する
+      update: 更新する
+      submit: 保存する
+    page_entries_info:
+      one_page:
+        display_entries:
+          zero: "%{entry_name}が見つかりませんでした"
+          one: "1件の%{entry_name}が表示されています"
+          other: "%{count}件の%{entry_name}が表示されています"
+      more_pages:
+        display_entries: "全%{total}件中 %{first}-%{last}件の%{entry_name}が表示されています"
+  
+  date:
+    formats:
+      default: "%Y/%m/%d"
+      long: "%Y年%m月%d日(%a)"
+      short: "%m/%d"
+  
+  time:
+    formats:
+      default: "%Y/%m/%d %H:%M:%S"
+      long: "%Y年%m月%d日(%a) %H時%M分%S秒"
+      short: "%m/%d %H:%M"

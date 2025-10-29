@@ -1,0 +1,25 @@
+# データベース設定ファイル
+default: &default
+  adapter: mysql2
+  encoding: utf8mb4
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: <%= ENV.fetch("DATABASE_USERNAME") { "blog_user" } %>
+  password: <%= ENV.fetch("DATABASE_PASSWORD") { "blog_password" } %>
+  host: <%= ENV.fetch("DATABASE_HOST") { "db" } %>
+
+# 開発環境の設定
+development:
+  <<: *default
+  database: simple_blog_development
+
+# テスト環境の設定
+test:
+  <<: *default
+  database: simple_blog_test
+
+# 本番環境の設定
+production:
+  <<: *default
+  database: simple_blog_production
+  username: simple_blog
+  password: <%= ENV['SIMPLE_BLOG_DATABASE_PASSWORD'] %>

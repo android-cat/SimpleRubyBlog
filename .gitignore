@@ -1,0 +1,47 @@
+# Rails関連
+*.rbc
+capybara-*.html
+.rspec
+/db/*.sqlite3
+/db/*.sqlite3-journal
+/db/*.sqlite3-[0-9]*
+/public/system
+/coverage/
+/spec/tmp
+*.orig
+rerun.txt
+pickle-email-*.html
+
+# Railsログとtmpファイル
+/log/*
+/tmp/*
+!/log/.keep
+!/tmp/.keep
+
+# プリコンパイル済みアセット
+/public/assets
+/public/packs
+/public/packs-test
+/node_modules
+/yarn-error.log
+yarn-debug.log*
+.yarn-integrity
+
+# 環境変数
+.env
+.env.local
+
+# IDEファイル
+/.idea
+/.vscode
+*.swp
+*.swo
+*~
+
+# OS関連
+.DS_Store
+Thumbs.db
+
+# Bundler設定
+/.bundle
+/vendor/bundle
